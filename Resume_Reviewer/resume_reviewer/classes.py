@@ -22,7 +22,7 @@ class FileUploader:
         
         # Title section and file upload instructions
         st.subheader('Upload Resume: ')
-        st.markdown(f"""
+        st.markdown("""
                     **File Upload Instructions:**  
                     - Please upload a PDF, Word Document or Plain Text file. Please do not upload other file types in order to avoid an error reading your resume.
                     - Only one file can be uploaded.
@@ -254,50 +254,51 @@ class FileUploader:
             st.warning('Please upload your resume and the job posting to start the analyzer.')
             return None
         
-        # make copies of the class attributes
-        resume_copy, job_posting_copy = self.resume_text, self.job_posting_text
-        
-        # Vectorize the text
-        try:
-            st.subheader('Resume Analysis')
+        else:
+            # make copies of the class attributes
+            resume_copy, job_posting_copy = self.resume_text, self.job_posting_text
             
-            vectorize_button = st.button(
-                label='Begin Resume Analysis',
-                key='ResumeJobPostingVectorizer'
-            )
-            
-            # Once user clicks the button, vectorize the data
-            if vectorize_button:
+            # Vectorize the text
+            try:
+                st.subheader('Resume Analysis')
                 
-                # Create a TF-IDF vectorizer object and vectorize both objects
-                # The stop_words='english' parameter excludes common English words (like “the”, “and”, etc.).
-                vectorizer = TfidfVectorizer(stop_words='english')
-                documents = [resume_copy, job_posting_copy]
-                tfidf_matrix = vectorizer.fit_transform(documents)
+                vectorize_button = st.button(
+                    label='Begin Resume Analysis',
+                    key='ResumeJobPostingVectorizer'
+                )
                 
-                # Calculate the cosine similarity between the resume and the job posting
-                # tfidf_matrix[0:1] produces a matrix with just the first document, and comparing it against the full matrix returns an array of similarities. 
-                # [0][1] extracts the similarity value between the first and second document.
-                similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix)[0][1]
-                
-                # Display the similarity
-                st.write(f"Resume Analysis Completed. Similarity Score: {similarity:.2f}")
-                st.markdown(f"""
-                            **Resume Results:**
-                            - **Similarity Score:** {similarity:.2f}
-                            - A similarity score below 0.20 may require improvements to your resume. Please review the missing keywords, and update your resume accordingly.
-                            - Excessive symbols, special characters and images in your resume can lead to poorer results. Keep it simple!
-                            """)
-                
-                # Update class attribute 
-                self.vectorized_documents = vectorizer
-                self.tfidf_matrix = tfidf_matrix
-                
-                return self.vectorized_documents, self.tfidf_matrix
-                
-        except Exception as e:
-            # st.error(f'Unable to vectorize the resume and job posting. Received Error: {e}')          
-            return None  
+                # Once user clicks the button, vectorize the data
+                if vectorize_button:
+                    
+                    # Create a TF-IDF vectorizer object and vectorize both objects
+                    # The stop_words='english' parameter excludes common English words (like “the”, “and”, etc.).
+                    vectorizer = TfidfVectorizer(stop_words='english')
+                    documents = [resume_copy, job_posting_copy]
+                    tfidf_matrix = vectorizer.fit_transform(documents)
+                    
+                    # Calculate the cosine similarity between the resume and the job posting
+                    # tfidf_matrix[0:1] produces a matrix with just the first document, and comparing it against the full matrix returns an array of similarities. 
+                    # [0][1] extracts the similarity value between the first and second document.
+                    similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix)[0][1]
+                    
+                    # Display the similarity
+                    st.write(f"Resume Analysis Completed. Similarity Score: {similarity:.2f}")
+                    st.markdown(f"""
+                                **Resume Results:**
+                                - **Similarity Score:** {similarity:.2f}
+                                - A similarity score below 0.20 may require improvements to your resume. Please review the missing keywords, and update your resume accordingly.
+                                - Excessive symbols, special characters and images in your resume can lead to poorer results. Keep it simple!
+                                """)
+                    
+                    # Update class attribute 
+                    self.vectorized_documents = vectorizer
+                    self.tfidf_matrix = tfidf_matrix
+                    
+                    return self.vectorized_documents, self.tfidf_matrix
+                    
+            except Exception as e:
+                # st.error(f'Unable to vectorize the resume and job posting. Received Error: {e}')          
+                return None  
                 
     def display_matches_and_keywords_between_resume_and_job_posting(self):
         
