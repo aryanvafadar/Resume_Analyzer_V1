@@ -111,7 +111,7 @@ class FileUploader:
             if resume_text is not None:
                 
                 # write a sample of the text
-                st.write(resume_text)
+                # st.write(resume_text)
                 st.success('Resume successfully uploaded!')
                 
                 # Update class attribute
@@ -236,7 +236,7 @@ class FileUploader:
             if job_posting_text is not None:
                 
                 # Write a sample of the text
-                st.write(job_posting_text)
+                # st.write(job_posting_text)
                 st.info('Job Posting file has successfully been uploaded.')
                 
                 # Strip all whitespaces and set to lower one more time
