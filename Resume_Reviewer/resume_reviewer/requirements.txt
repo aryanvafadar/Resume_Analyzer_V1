@@ -1,6 +1,7 @@
-requests
 numpy
 pandas
 streamlit
 plotly
-openpyxl
+python-docx
+pypdf
+scikit-learn
