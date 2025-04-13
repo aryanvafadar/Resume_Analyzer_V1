@@ -250,7 +250,7 @@ class FileUploader:
     def vectorize_resume_and_job_posting(self):
         
         # check both the resume and the job posting have been uploaded
-        if not (isinstance(self.resume_text, str)) and (isinstance(self.job_posting_text, str)):
+        if (not self.resume_text) and (not self.job_posting_text):
             st.warning('Please upload your resume and the job posting to start the analyzer.')
             return None
         
