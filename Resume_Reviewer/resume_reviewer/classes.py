@@ -237,7 +237,7 @@ class FileUploader:
                 
                 # Write a sample of the text
                 # st.write(job_posting_text)
-                st.info('Job Posting file has successfully been uploaded.')
+                st.success('Job Posting file has successfully been uploaded.')
                 
                 # Strip all whitespaces and set to lower one more time
                 job_posting_text = job_posting_text.strip().lower()
@@ -287,7 +287,8 @@ class FileUploader:
                                 **Resume Results:**
                                 - **Similarity Score:** {similarity:.2f}
                                 - A similarity score below 0.20 may require improvements to your resume. Please review the missing keywords, and update your resume accordingly.
-                                - Excessive symbols, special characters and images in your resume can lead to poorer results. Keep it simple!
+                                - A similarity score between 0.20 - 0.30 demonstrates a strong resume for the job posting.
+                                - Excessive symbols, special characters and images in your resume can lead to poorer results. To improve results, keep your resume simple in terms of formatting.
                                 """)
                     
                     # Update class attribute 
@@ -379,16 +380,4 @@ class FileUploader:
         except Exception as e:
             st.error(f"Unable to highlight the missing keywords. Received Error: {e}")   
             return None
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+              
